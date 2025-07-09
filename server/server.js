@@ -46,7 +46,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-const aloowedOrigins =['http://localhost:5173','http://localhost:5174','https://eco-choice.onrender.com']
+const aloowedOrigins =['http://localhost:5173','http://localhost:5174','https://eco-choice.onrender.com','https://admin-eco-choice.onrender.com']
 
 // Enable CORS and allow credentials (cookies, auth headers) in cross-origin requests
 app.use(cors({origin:aloowedOrigins, credentials: true }));

@@ -259,7 +259,7 @@ color: "#1e293b",           // slate-800 for readable dark text
 <Typography variant="caption" sx={{ mt: 1.5, display: "block" }}>
   Are you an admin?{" "}
   <a
-    href="http://localhost:5174/login"
+    href="https://admin-eco-choice.onrender.com/login"
     style={{
       color: "#6366f1",
       textDecoration: "underline",

@@ -21,7 +21,7 @@ const Home = () => {
       >
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-green-700 mb-12">
-            Today's Eco Deals
+            What's Today !!
           </h2>
           <Deals />
         </div>
