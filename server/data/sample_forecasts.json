@@ -1,0 +1,23 @@
+[
+  {
+    "productId": "P123",
+    "productName": "Eco Shampoo",
+    "currentStock": 120,
+    "predictedDemand": 160,
+    "forecastDate": "2025-07-15"
+  },
+  {
+    "productId": "P124",
+    "productName": "Biodegradable Cutlery",
+    "currentStock": 300,
+    "predictedDemand": 180,
+    "forecastDate": "2025-07-15"
+  },
+  {
+    "productId": "P125",
+    "productName": "Organic Cotton T-shirt",
+    "currentStock": 75,
+    "predictedDemand": 140,
+    "forecastDate": "2025-07-15"
+  }
+]
