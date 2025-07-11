@@ -19,6 +19,18 @@ const Dashboard = () => {
   const [forecastData, setForecastData] = useState([]);
   const [barData, setBarData] = useState([]);
   const [activeTab, setActiveTab] = useState("forecast");
+  const [inputSubmitted, setInputSubmitted] = useState(false);
+  const [salesRange, setSalesRange] = useState("");
+  const [weatherSource, setWeatherSource] = useState("");
+  const [holidaySource, setHolidaySource] = useState("");
+
+  const handleGenerateClick = () => {
+    if (salesRange && weatherSource && holidaySource) {
+      setInputSubmitted(true);
+    } else {
+      alert("Please select all input sources.");
+    }
+  };
 
   const mockBarData = [
     { productName: "Organic Milk", currentStock: 80, predictedDemand: 120, category: "Dairy", profitMargin: 22 },
@@ -88,55 +100,104 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Inventory Forecast Dashboard</h1>
             <p className="text-gray-600 mt-2">AI-powered demand predictions and stock management</p>
           </div>
           <div className="mt-4 md:mt-0 flex items-center space-x-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-              Live Data
-            </span>
-            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
-              AI Active
-            </span>
+            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">Live Data</span>
+            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">AI Active</span>
           </div>
         </div>
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-500">{stat.label}</p>
-                  <p className="mt-2 text-3xl font-bold text-gray-800">{stat.value}</p>
-                </div>
-                <div className="h-10 w-10 rounded-full bg-opacity-20 flex items-center justify-center">
-                  {stat.icon}
-                </div>
-              </div>
-              <div className={`mt-4 text-sm flex items-center ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-                {stat.change}
-                <svg
-                  className={`w-4 h-4 ml-1 ${stat.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={stat.trend === 'up' ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-                  />
-                </svg>
-              </div>
+        {/* Input Section */}
+        <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Input Sources</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Sales Range</label>
+              <select
+                value={salesRange}
+                onChange={(e) => setSalesRange(e.target.value)}
+                className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="7">Past 7 days</option>
+                <option value="14">Past 14 days</option>
+                <option value="30">Past 30 days</option>
+              </select>
             </div>
-          ))}
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Weather Source</label>
+              <select
+                value={weatherSource}
+                onChange={(e) => setWeatherSource(e.target.value)}
+                className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="accuweather">AccuWeather</option>
+                <option value="openweather">OpenWeather</option>
+                <option value="none">No Input</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-gray-600 mb-1">Holiday Calendar</label>
+              <select
+                value={holidaySource}
+                onChange={(e) => setHolidaySource(e.target.value)}
+                className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="india">India Calendar</option>
+                <option value="global">Global Calendar</option>
+                <option value="none">No Holiday Input</option>
+              </select>
+            </div>
+          </div>
+          <button
+            onClick={handleGenerateClick}
+            className="mt-6 px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
+          >
+            Generate
+          </button>
         </div>
+
+        {/* KPI Cards */}
+        {inputSubmitted && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {stats.map((stat, i) => (
+              <div key={i} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                <div className="flex justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">{stat.label}</p>
+                    <p className="mt-2 text-3xl font-bold text-gray-800">{stat.value}</p>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-opacity-20 flex items-center justify-center">
+                    {stat.icon}
+                  </div>
+                </div>
+                <div className={`mt-4 text-sm flex items-center ${stat.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+                  {stat.change}
+                  <svg
+                    className={`w-4 h-4 ml-1 ${stat.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d={stat.trend === 'up' ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+                    />
+                  </svg>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Tabs */}
         <div className="mb-6 border-b border-gray-200">
